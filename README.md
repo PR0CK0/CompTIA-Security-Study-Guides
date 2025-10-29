@@ -1,4 +1,4 @@
-# CompTIA Security+ Study Guides
+# CompTIA Security+ SYO-701 Study Guides
 My collection from over the Web. Includes Exam Objectives PDF from CompTIA.
 
 * https://github.com/MaheshShukla1/CompTIA-Security-Plus-SY0-701-Notes-CheatSheet-Exam-Prep
