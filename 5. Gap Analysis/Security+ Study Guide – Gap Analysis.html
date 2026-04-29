@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CompTIA Security+ SY0-701 — Gap Analysis Study Guide</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --border: #2a2d3a;
+    --accent: #6c9bff;
+    --accent2: #ff6c8a;
+    --accent3: #5dffa2;
+    --accent4: #ffbe5d;
+    --text: #e0e0e8;
+    --muted: #8888a0;
+    --highlight: #2a3050;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--accent);
+  }
+  h3 {
+    font-size: 1.1rem;
+    color: var(--accent4);
+    margin-top: 1.8rem;
+    margin-bottom: 0.6rem;
+  }
+  p { margin-bottom: 1rem; }
+  strong { color: #fff; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.2rem 0;
+  }
+  .card.warn {
+    border-left: 4px solid var(--accent2);
+  }
+  .card.tip {
+    border-left: 4px solid var(--accent3);
+  }
+  .card.info {
+    border-left: 4px solid var(--accent);
+  }
+  .card-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  .card.warn .card-label { color: var(--accent2); }
+  .card.tip .card-label { color: var(--accent3); }
+  .card.info .card-label { color: var(--accent); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+  }
+  th {
+    background: var(--highlight);
+    color: var(--accent);
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent);
+  }
+  td {
+    padding: 0.55rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:hover td { background: rgba(108,155,255,0.05); }
+  code {
+    background: var(--highlight);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.88rem;
+    color: var(--accent3);
+  }
+
+  /* Flow diagrams */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+    margin: 1.2rem 0;
+    justify-content: center;
+  }
+  .flow-step {
+    background: var(--highlight);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 100px;
+  }
+  .flow-arrow {
+    color: var(--muted);
+    font-size: 1.2rem;
+    padding: 0 0.3rem;
+  }
+  .flow-step.active {
+    background: rgba(108,155,255,0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Comparison boxes */
+  .vs-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.8rem;
+    align-items: start;
+    margin: 1.2rem 0;
+  }
+  .vs-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+  }
+  .vs-box h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .vs-box.left h4 { color: var(--accent); }
+  .vs-box.right h4 { color: var(--accent2); }
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--muted);
+    font-weight: 700;
+    padding-top: 1rem;
+  }
+  .vs-box ul {
+    list-style: none;
+    padding: 0;
+  }
+  .vs-box li {
+    padding: 0.2rem 0;
+    font-size: 0.9rem;
+  }
+  .vs-box li::before {
+    content: '>';
+    color: var(--muted);
+    margin-right: 0.5rem;
+  }
+
+  /* Port grid */
+  .port-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+  .port-item {
+    background: var(--highlight);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .port-num {
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    color: var(--accent3);
+    font-size: 1.05rem;
+  }
+  .port-name {
+    color: var(--text);
+    font-size: 0.88rem;
+  }
+  .port-proto {
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  /* Mnemonic callout */
+  .mnemonic {
+    background: rgba(93,255,162,0.08);
+    border: 1px solid rgba(93,255,162,0.25);
+    border-radius: 10px;
+    padding: 1rem 1.3rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: var(--accent3);
+  }
+  .mnemonic strong { color: var(--accent3); }
+
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .toc h3 {
+    color: var(--text);
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+  }
+  .toc ol {
+    padding-left: 1.3rem;
+  }
+  .toc li {
+    margin: 0.3rem 0;
+  }
+  .toc a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .toc a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    .vs-container { grid-template-columns: 1fr; }
+    .vs-divider { transform: rotate(90deg); padding: 0.5rem 0; }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<h1>CompTIA Security+ SY0-701</h1>
+<p class="subtitle">A focused study guide covering commonly confused topics, tricky distinctions, and easy-to-mix-up concepts on the Security+ exam — organized by concept, with definitions, diagrams, and memory hooks.</p>
+
+<div class="toc">
+  <h3>Sections</h3>
+  <ol>
+    <li><a href="#email">Email Security: SPF, DKIM, and DMARC</a></li>
+    <li><a href="#federation">Federation vs. Single Sign-On</a></li>
+    <li><a href="#8021x">802.1X Authentication</a></li>
+    <li><a href="#ir">Incident Response Phases</a></li>
+    <li><a href="#controls">Security Control Categories</a></li>
+    <li><a href="#access">Access Control Models</a></li>
+    <li><a href="#mobile">Mobile Device Deployment Models</a></li>
+    <li><a href="#data-roles">Data Roles and Responsibilities</a></li>
+    <li><a href="#data-states">Data States</a></li>
+    <li><a href="#risk">Risk Management</a></li>
+    <li><a href="#agreements">Agreement Types</a></li>
+    <li><a href="#crypto">Cryptography Essentials</a></li>
+    <li><a href="#network">Network Devices and Appliances</a></li>
+    <li><a href="#cloud">Cloud Concepts</a></li>
+    <li><a href="#ports">Common Ports</a></li>
+    <li><a href="#forensics">Digital Forensics and Legal</a></li>
+    <li><a href="#misc">Other Concepts That Tripped You Up</a></li>
+    <li><a href="#meta">Test-Taking Patterns</a></li>
+  </ol>
+</div>
+
+<!-- ================================================================== -->
+<h2 id="email">1. Email Security: SPF, DKIM, and DMARC</h2>
+
+<p>These three protocols work together to protect email. Their roles are commonly confused — here's how to tell them apart.</p>
+
+<table>
+  <tr><th>Protocol</th><th>Full Name</th><th>Job</th><th>Analogy</th></tr>
+  <tr>
+    <td><strong>SPF</strong></td>
+    <td>Sender Policy Framework</td>
+    <td>Publishes a DNS list of servers <em>authorized to send</em> email for a domain</td>
+    <td>A guest list at the door</td>
+  </tr>
+  <tr>
+    <td><strong>DKIM</strong></td>
+    <td>Domain Keys Identified Mail</td>
+    <td>Digitally <em>signs</em> outgoing messages. Recipients verify with the public key in DNS.</td>
+    <td>A wax seal on a letter</td>
+  </tr>
+  <tr>
+    <td><strong>DMARC</strong></td>
+    <td>Domain-based Message Authentication, Reporting and Conformance</td>
+    <td>Sets the <em>policy</em> for what to do when SPF or DKIM fails — accept, quarantine, or reject</td>
+    <td>The bouncer's instructions</td>
+  </tr>
+</table>
+
+<div class="flow">
+  <div class="flow-step">Incoming email</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">SPF<br><small>Is the sender authorized?</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">DKIM<br><small>Is the signature valid?</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">DMARC<br><small>What do we do about it?</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Accept / Spam / Reject</div>
+</div>
+
+<div class="mnemonic"><strong>Memory hook:</strong> <strong>S</strong>PF = <strong>S</strong>enders list &nbsp;|&nbsp; <strong>D</strong>KIM = <strong>D</strong>igital signature &nbsp;|&nbsp; <strong>D</strong>MARC = <strong>D</strong>isposition policy</div>
+
+<div class="card warn">
+  <div class="card-label">Where you got tripped up</div>
+  <p>When a question asks "who is authorized to send" &rarr; SPF. When it asks "verify the signature" &rarr; DKIM. When it asks "what happens to the message" or mentions <em>disposition</em> &rarr; DMARC. The word <strong>disposition</strong> is DMARC's keyword.</p>
+</div>
+
+
+<!-- ================================================================== -->
+<h2 id="federation">2. Federation vs. Single Sign-On (SSO)</h2>
+
+<p>You mixed these up three times. They sound similar but work at different scopes.</p>
+
+<div class="vs-container">
+  <div class="vs-box left">
+    <h4>Federation</h4>
+    <ul>
+      <li>Crosses <strong>organizational boundaries</strong></li>
+      <li>Uses a trusted third-party identity provider</li>
+      <li>"Log in with Google" on a non-Google site</li>
+      <li>Two separate orgs sharing trust</li>
+    </ul>
+  </div>
+  <div class="vs-divider">vs</div>
+  <div class="vs-box right">
+    <h4>SSO (Single Sign-On)</h4>
+    <ul>
+      <li>Works <strong>within one environment</strong></li>
+      <li>One login unlocks multiple internal services</li>
+      <li>Log into your company portal, get access to email + HR + intranet</li>
+      <li>Same org, many apps</li>
+    </ul>
+  </div>
+</div>
+
+<div class="mnemonic"><strong>Memory hook:</strong> If the question mentions a <strong>third-party</strong> or <strong>another organization's</strong> credentials &rarr; Federation. If it mentions <strong>one login</strong> for <strong>many internal services</strong> &rarr; SSO.</div>
+
+
+<!-- ================================================================== -->
+<h2 id="8021x">3. 802.1X Authentication</h2>
+
+<p>IEEE 802.1X is port-based Network Access Control (NAC). It appeared on all three exams. You need to recognize its vocabulary instantly.</p>
+
+<div class="flow">
+  <div class="flow-step active">Supplicant<br><small>(the client device)</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">Authenticator<br><small>(switch or AP)</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">Authentication Server<br><small>(RADIUS / LDAP / AD)</small></div>
+</div>
+
+<div class="card info">
+  <div class="card-label">Key facts</div>
+  <ul style="list-style:none; padding:0;">
+    <li><strong>Purpose:</strong> Devices don't get network access until they authenticate.</li>
+    <li><strong>Backend:</strong> Needs a centralized auth database &mdash; LDAP, RADIUS, TACACS+, or Kerberos.</li>
+    <li><strong>Keywords on the exam:</strong> "Supplicant" and "authenticator" = 802.1X, always. You'll never see those terms in any other context.</li>
+    <li><strong>Use case:</strong> "Each user authenticates with corporate credentials on the wireless network" = configure 802.1X on the APs.</li>
+  </ul>
+</div>
+
+<h3>LDAP (Lightweight Directory Access Protocol)</h3>
+<p>LDAP is the most common <em>backend</em> for 802.1X and any centralized authentication. It's an open protocol for querying a directory of users, passwords, and permissions. Every time a question asks about "validating credentials" against a centralized system, think LDAP (or RADIUS/Kerberos).</p>
+
+<h3>EAP (Extensible Authentication Protocol)</h3>
+<p>EAP is the authentication <em>framework</em> used by 802.1X. It supports many methods (EAP-TLS, PEAP, etc.). If a question mentions EAP, it's in the context of 802.1X network authentication.</p>
+
+
+<!-- ================================================================== -->
+<h2 id="ir">4. Incident Response Phases</h2>
+
+<p>You got the ordering wrong and misidentified which phase specific actions belong to. Here's the full lifecycle:</p>
+
+<div class="flow">
+  <div class="flow-step">Preparation</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Detection</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Analysis</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Containment</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Eradication</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Recovery</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Lessons Learned</div>
+</div>
+
+<div class="mnemonic"><strong>Mnemonic:</strong> After Prep, remember <strong>"Dads Are Cool, Even Really Late"</strong> &mdash; Detection, Analysis, Containment, Eradication, Recovery, Lessons learned.</div>
+
+<table>
+  <tr><th>Phase</th><th>What happens</th><th>Example actions</th></tr>
+  <tr><td><strong>Preparation</strong></td><td>Everything before an incident occurs</td><td>Buying tools, writing runbooks, training the team</td></tr>
+  <tr><td><strong>Detection</strong></td><td>Identifying that something is happening</td><td>IDS alert fires, user reports phishing email</td></tr>
+  <tr><td><strong>Analysis</strong></td><td>Understanding what's happening and how bad it is</td><td>Reviewing logs, checking scope, triaging alerts</td></tr>
+  <tr><td><strong>Containment</strong></td><td>Stop it from spreading</td><td>Unplug cable, disable account, add firewall rule</td></tr>
+  <tr><td><strong>Eradication</strong></td><td>Remove the threat entirely</td><td>Delete malware, patch the vulnerability</td></tr>
+  <tr><td><strong>Recovery</strong></td><td>Restore normal operations</td><td>Rebuild servers from backups, bring systems online</td></tr>
+  <tr><td><strong>Lessons Learned</strong></td><td>Post-mortem review</td><td>What worked, what didn't, update the plan</td></tr>
+</table>
+
+<div class="card warn">
+  <div class="card-label">Common mix-up</div>
+  <p><strong>Analysis before Containment.</strong> You can't properly contain something until you understand what it is. You detect smoke, analyze the fire, <em>then</em> contain it.</p>
+  <p><strong>Containment vs. Eradication.</strong> Containment = stopping the spread (pulling the plug). Eradication = removing the root cause (deleting the malware). Recovery = rebuilding from backups.</p>
+</div>
+
+<h3>DR Exercise Types</h3>
+<table>
+  <tr><th>Type</th><th>Changes infrastructure?</th><th>Description</th></tr>
+  <tr><td><strong>Tabletop</strong></td><td>No</td><td>Conference room discussion. Walk through the plan on paper.</td></tr>
+  <tr><td><strong>Simulation</strong></td><td>Yes</td><td>Actually tests processes; may require system changes.</td></tr>
+  <tr><td><strong>Failover test</strong></td><td>Yes</td><td>Actually switches to the backup/hot site.</td></tr>
+</table>
+
+<div class="mnemonic"><strong>Memory hook:</strong> If nobody touches a keyboard, it's a <strong>tabletop</strong>.</div>
+
+
+<!-- ================================================================== -->
+<h2 id="controls">5. Security Control Categories</h2>
+
+<p>You confused deterrent, detective, and directive multiple times. Here's the complete set:</p>
+
+<table>
+  <tr><th>Category</th><th>Purpose</th><th>Examples</th></tr>
+  <tr><td><strong>Preventive</strong></td><td>Stops the attack from happening</td><td>Firewall rules, door locks, encryption</td></tr>
+  <tr><td><strong>Detective</strong></td><td>Identifies that an attack is happening or has happened</td><td>IDS/IPS, security cameras, log monitoring</td></tr>
+  <tr><td><strong>Deterrent</strong></td><td>Discourages the attacker (doesn't stop them)</td><td>Warning banners, posted signs, security lighting</td></tr>
+  <tr><td><strong>Corrective</strong></td><td>Fixes things after an attack</td><td>Restoring from backup, patching</td></tr>
+  <tr><td><strong>Compensating</strong></td><td>Alternative when the primary control isn't feasible</td><td>Extra logging when you can't encrypt legacy data</td></tr>
+  <tr><td><strong>Directive</strong></td><td>Tells people what they must do (policy-based)</td><td>Acceptable use policies, compliance requirements</td></tr>
+</table>
+
+<div class="card warn">
+  <div class="card-label">The trap: deterrent vs. directive</div>
+  <p>Both are "soft" controls. The difference: a <strong>deterrent</strong> discourages ("you are being monitored" banner). A <strong>directive</strong> instructs ("you must change your password every 90 days" policy). Deterrent = discourages. Directive = instructs.</p>
+  <p><strong>Login banners</strong> are deterrents &mdash; they discourage unauthorized access by warning people they're being watched.</p>
+</div>
+
+<div class="card tip">
+  <div class="card-label">Quick test</div>
+  <p>Ask yourself: does it <strong>watch</strong>? &rarr; Detective. Does it <strong>block</strong>? &rarr; Preventive. Does it <strong>scare</strong>? &rarr; Deterrent. Does it <strong>tell you what to do</strong>? &rarr; Directive. Does it <strong>fix</strong>? &rarr; Corrective.</p>
+</div>
+
+
+<!-- ================================================================== -->
+<h2 id="access">6. Access Control Models</h2>
+
+<p>You confused Mandatory, Discretionary, and Rule-based. These are the four models the exam tests:</p>
+
+<table>
+  <tr><th>Model</th><th>Abbreviation</th><th>How access works</th><th>Keyword on the exam</th></tr>
+  <tr>
+    <td><strong>Mandatory</strong></td><td>MAC</td>
+    <td>Labels + clearance levels. The <em>system</em> enforces access. No user can override.</td>
+    <td>"Confidential," "Secret," "Top Secret," "clearance level"</td>
+  </tr>
+  <tr>
+    <td><strong>Discretionary</strong></td><td>DAC</td>
+    <td>The <em>resource owner</em> decides who gets access.</td>
+    <td>"Owner assigns permissions," Linux file permissions</td>
+  </tr>
+  <tr>
+    <td><strong>Role-based</strong></td><td>RBAC</td>
+    <td>Access based on your <em>job role</em>. Manager gets manager permissions.</td>
+    <td>"Based on their role," "job function"</td>
+  </tr>
+  <tr>
+    <td><strong>Rule-based</strong></td><td>&mdash;</td>
+    <td>System-enforced rules (time of day, location, browser type).</td>
+    <td>"Only accessible during business hours," "specific conditions"</td>
+  </tr>
+</table>
+
+<div class="mnemonic"><strong>Memory hook:</strong> See "confidential / secret / top secret" or "security clearance" in a question? &rarr; <strong>MAC</strong>. Always.</div>
+
+
+<!-- ================================================================== -->
+<h2 id="mobile">7. Mobile Device Deployment Models</h2>
+
+<p>You confused COPE, BYOD, and CYOD across two exams. The key question is: <strong>who owns the device?</strong></p>
+
+<table>
+  <tr><th>Model</th><th>Full Name</th><th>Who owns it?</th><th>Company manages?</th><th>Personal use?</th></tr>
+  <tr><td><strong>BYOD</strong></td><td>Bring Your Own Device</td><td>Employee</td><td>Minimal</td><td>Yes (it's theirs)</td></tr>
+  <tr><td><strong>COPE</strong></td><td>Corporate Owned, Personally Enabled</td><td>Company</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td><strong>CYOD</strong></td><td>Choose Your Own Device</td><td>Company</td><td>Yes</td><td>Employee picks which device</td></tr>
+</table>
+
+<div class="card tip">
+  <div class="card-label">Decision tree</div>
+  <p>"Personal phone used for work" &rarr; <strong>BYOD</strong> (employee owns it).</p>
+  <p>"Company needs to manage and standardize, but allow personal use" &rarr; <strong>COPE</strong> (company owns it, personal use allowed).</p>
+  <p>"Company buys it, employee picks which one" &rarr; <strong>CYOD</strong>.</p>
+</div>
+
+<p><strong>MDM (Mobile Device Management)</strong> is not a deployment model &mdash; it's the <em>tool</em> used to manage devices regardless of model. MDM handles remote wipe, policy enforcement, app management, etc.</p>
+
+
+<!-- ================================================================== -->
+<h2 id="data-roles">8. Data Roles and Responsibilities</h2>
+
+<p>You confused data owner and data custodian, and data subject and data controller. Here's the complete picture:</p>
+
+<table>
+  <tr><th>Role</th><th>Who</th><th>Responsibility</th></tr>
+  <tr><td><strong>Data Subject</strong></td><td>The person the data is <em>about</em></td><td>The customer whose info is being stored</td></tr>
+  <tr><td><strong>Data Owner</strong></td><td>Senior executive</td><td>Makes business decisions about the data (what to collect, how long to keep)</td></tr>
+  <tr><td><strong>Data Custodian</strong></td><td>IT administrator</td><td>Day-to-day management: access controls, backups, security settings</td></tr>
+  <tr><td><strong>Data Controller</strong></td><td>The org that decides <em>how</em> and <em>why</em> data is processed</td><td>Your company's HR department deciding what employee data to collect</td></tr>
+  <tr><td><strong>Data Processor</strong></td><td>Third party that processes data on behalf of the controller</td><td>A payroll company processing your employee paychecks</td></tr>
+</table>
+
+<div class="mnemonic"><strong>Memory hook:</strong> <strong>Owner</strong> = the boss who decides policy. <strong>Custodian</strong> = the one who holds the keys. Like a building owner (sets rules) vs. the building custodian (manages day-to-day access).</div>
+
+<div class="card warn">
+  <div class="card-label">Exam tells</div>
+  <p>"Who manages access rights?" &rarr; <strong>Custodian</strong>. "Who makes business decisions about data?" &rarr; <strong>Owner</strong>. "Whose personal information is it?" or "source of the data?" &rarr; <strong>Data subject</strong>.</p>
+</div>
+
+
+<!-- ================================================================== -->
+<h2 id="data-states">9. Data States</h2>
+
+<p>Data exists in three states. You missed a transit question by confusing it with in-use.</p>
+
+<table>
+  <tr><th>State</th><th>Where the data is</th><th>Examples</th></tr>
+  <tr><td><strong>In-transit</strong></td><td>Moving across a network</td><td>Email being sent, data crossing an 802.1Q trunk, IPS inspecting live traffic</td></tr>
+  <tr><td><strong>At-rest</strong></td><td>Sitting on a storage device</td><td>Files on a hard drive, data in a database, backup tapes</td></tr>
+  <tr><td><strong>In-use</strong></td><td>Being processed in memory (RAM/CPU)</td><td>App decrypting credit cards for validation, ATM checking a PIN, spreadsheet recalculating</td></tr>
+</table>
+
+<div class="card warn">
+  <div class="card-label">The IPS trap</div>
+  <p>"An IPS removes attack frames from the network" &mdash; sounds like the IPS is <em>using</em> the data, but the data is moving across the network wire. It's <strong>in-transit</strong>. In-use means the data is actively loaded into a device's memory for processing, not just flowing through.</p>
+</div>
+
+
+<!-- ================================================================== -->
+<h2 id="risk">10. Risk Management</h2>
+
+<h3>Risk Strategies</h3>
+<p>You confused acceptance and transference. The four strategies:</p>
+
+<table>
+  <tr><th>Strategy</th><th>What you do</th><th>Example</th></tr>
+  <tr><td><strong>Acceptance</strong></td><td>Live with the risk. Handle it yourself if it happens.</td><td>Canceling insurance and dealing with incidents internally</td></tr>
+  <tr><td><strong>Transference</strong></td><td>Pay someone else to take the risk.</td><td>Buying insurance, outsourcing to a managed security provider</td></tr>
+  <tr><td><strong>Mitigation</strong></td><td>Reduce the likelihood or impact.</td><td>Installing firewalls, patching systems, training users</td></tr>
+  <tr><td><strong>Avoidance</strong></td><td>Stop doing the risky activity entirely.</td><td>Discontinuing a vulnerable service</td></tr>
+</table>
+
+<div class="card warn">
+  <div class="card-label">Watch the tense</div>
+  <p>A company <em>had</em> insurance (transference) but <em>canceled</em> it and now handles things internally. The question asks about the <strong>current</strong> state &rarr; acceptance. Always read for what they're doing <em>now</em>, not what they were doing before.</p>
+</div>
+
+<h3>Risk Math</h3>
+<p>You confused ARO and ALE. These three terms form a single formula:</p>
+
+<table>
+  <tr><th>Term</th><th>Full Name</th><th>Meaning</th><th>Example</th></tr>
+  <tr><td><strong>SLE</strong></td><td>Single Loss Expectancy</td><td>Cost of <em>one</em> event</td><td>One stolen laptop = $1,000</td></tr>
+  <tr><td><strong>ARO</strong></td><td>Annualized Rate of Occurrence</td><td>How many times per year</td><td>Expect 7 laptops stolen/year</td></tr>
+  <tr><td><strong>ALE</strong></td><td>Annual Loss Expectancy</td><td>Total yearly cost</td><td>$1,000 &times; 7 = $7,000</td></tr>
+</table>
+
+<div class="flow">
+  <div class="flow-step active">SLE<br><small>cost per event</small></div>
+  <div class="flow-arrow">&times;</div>
+  <div class="flow-step active">ARO<br><small>events per year</small></div>
+  <div class="flow-arrow">=</div>
+  <div class="flow-step active">ALE<br><small>yearly cost</small></div>
+</div>
+
+<div class="mnemonic"><strong>Memory hook:</strong> "Estimated <em>number</em>" = ARO (a count). "Estimated <em>cost</em>" = ALE (a dollar figure).</div>
+
+
+<!-- ================================================================== -->
+<h2 id="agreements">11. Agreement Types</h2>
+
+<p>You confused SLA and MOA. Here are all the agreement types the exam tests:</p>
+
+<table>
+  <tr><th>Agreement</th><th>Full Name</th><th>What it does</th><th>Key characteristic</th></tr>
+  <tr><td><strong>MOA / MOU</strong></td><td>Memorandum of Agreement / Understanding</td><td>Broad goals and objectives of a partnership</td><td>Vague, high-level, "we agree to work together"</td></tr>
+  <tr><td><strong>SLA</strong></td><td>Service Level Agreement</td><td>Specific, measurable service requirements</td><td>99.99% uptime, 4-hour response time</td></tr>
+  <tr><td><strong>SOW</strong></td><td>Statement of Work</td><td>Detailed task list for a project</td><td>Specific deliverables and milestones</td></tr>
+  <tr><td><strong>NDA</strong></td><td>Non-Disclosure Agreement</td><td>Confidentiality requirements</td><td>"Don't share our secrets"</td></tr>
+  <tr><td><strong>MSA</strong></td><td>Master Service Agreement</td><td>Overarching terms for the business relationship</td><td>Covers multiple SOWs over time</td></tr>
+  <tr><td><strong>BPA</strong></td><td>Business Partners Agreement</td><td>Formal partnership terms between two companies</td><td>Joint ventures, shared responsibilities</td></tr>
+</table>
+
+<div class="mnemonic"><strong>Memory hook:</strong> "Broad" and "formal partnership" &rarr; <strong>MOA</strong>. Specific numbers and metrics &rarr; <strong>SLA</strong>. Task list &rarr; <strong>SOW</strong>. "Don't tell anyone" &rarr; <strong>NDA</strong>.</div>
+
+
+<!-- ================================================================== -->
+<h2 id="crypto">12. Cryptography Essentials</h2>
+
+<h3>Digital Signatures and Trust</h3>
+<p>You knew a CA signs certificates but still picked the wrong answer. Lock in the chain:</p>
+
+<div class="flow">
+  <div class="flow-step">You generate a key pair</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Submit CSR to CA</div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">CA signs your cert<br><small>(digital signature)</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Others trust you because they trust the CA</div>
+</div>
+
+<p>A <strong>digital signature</strong> is what adds trust to a certificate. The CA hashes the certificate, encrypts the hash with the CA's private key, and attaches it. Anyone who trusts the CA can verify the signature with the CA's public key.</p>
+
+<h3>Integrity vs. Authentication vs. Confidentiality</h3>
+<table>
+  <tr><th>Goal</th><th>What it means</th><th>Achieved by</th></tr>
+  <tr><td><strong>Integrity</strong></td><td>Data hasn't been tampered with</td><td>Hashing, digital signatures</td></tr>
+  <tr><td><strong>Authentication</strong></td><td>Proving who you are</td><td>Passwords, biometrics, certificates</td></tr>
+  <tr><td><strong>Confidentiality</strong></td><td>Only authorized people can read it</td><td>Encryption (symmetric or asymmetric)</td></tr>
+  <tr><td><strong>Non-repudiation</strong></td><td>Can't deny you did it</td><td>Digital signatures (prove sender identity)</td></tr>
+</table>
+
+<div class="card warn">
+  <div class="card-label">Digital signatures on email</div>
+  <p>A digital signature on an email proves <strong>integrity</strong> (the message wasn't changed), not authentication (who you are). The signature is a hash &mdash; it's a tamper seal, not a login credential.</p>
+</div>
+
+<h3>Certificate Validation</h3>
+<table>
+  <tr><th>Method</th><th>Full Name</th><th>How it works</th></tr>
+  <tr><td><strong>CRL</strong></td><td>Certificate Revocation List</td><td>A published list of revoked certificates. Clients download and check it.</td></tr>
+  <tr><td><strong>OCSP</strong></td><td>Online Certificate Status Protocol</td><td>Client asks the CA in real-time: "Is this cert still valid?"</td></tr>
+  <tr><td><strong>OCSP Stapling</strong></td><td>&mdash;</td><td>The <em>server</em> asks the CA, caches the answer, and staples it to the TLS handshake. Clients don't have to contact the CA themselves.</td></tr>
+</table>
+
+<div class="mnemonic"><strong>Memory hook:</strong> OCSP stapling = the server does the homework so clients don't have to. "Minimize certificate status checks to the CA" = OCSP stapling.</div>
+
+<h3>Password Protection</h3>
+<table>
+  <tr><th>Technique</th><th>What it does</th></tr>
+  <tr><td><strong>Hashing</strong></td><td>One-way function. Converts password to a fixed-length digest. Can't reverse it.</td></tr>
+  <tr><td><strong>Salting</strong></td><td>Adds random data to the password <em>before</em> hashing. Makes each hash unique, defeats rainbow tables.</td></tr>
+  <tr><td><strong>Key stretching</strong></td><td>Runs the hash function many times to make brute force slower (bcrypt, PBKDF2).</td></tr>
+</table>
+
+
+<!-- ================================================================== -->
+<h2 id="network">13. Network Devices and Appliances</h2>
+
+<p>You mixed up IPS, WAF, proxy, and other devices on the matching questions. Here's the cheat sheet:</p>
+
+<table>
+  <tr><th>Device</th><th>Full Name</th><th>What it does</th></tr>
+  <tr><td><strong>IPS</strong></td><td>Intrusion Prevention System</td><td>Monitors <em>network traffic</em> for known exploits (SQL injection, buffer overflow) and blocks them</td></tr>
+  <tr><td><strong>WAF</strong></td><td>Web Application Firewall</td><td>Inspects <em>user input</em> to web applications. Blocks bad input (SQL injection, XSS) at the application layer</td></tr>
+  <tr><td><strong>Proxy (Forward)</strong></td><td>&mdash;</td><td>Sits between users and the internet. Intercepts outbound requests. Caches, filters, monitors.</td></tr>
+  <tr><td><strong>Reverse Proxy</strong></td><td>&mdash;</td><td>Sits in front of your servers. Handles inbound traffic from the internet.</td></tr>
+  <tr><td><strong>Load Balancer</strong></td><td>&mdash;</td><td>Distributes traffic across multiple servers for redundancy and performance.</td></tr>
+  <tr><td><strong>Jump Server</strong></td><td>&mdash;</td><td>A hardened intermediary for admins to connect through before reaching sensitive systems.</td></tr>
+  <tr><td><strong>Router</strong></td><td>&mdash;</td><td>Forwards packets between different networks/VLANs using IP addresses.</td></tr>
+  <tr><td><strong>SIEM</strong></td><td>Security Information and Event Management</td><td>Aggregates logs from many sources, correlates events, generates alerts. Not a network device &mdash; a monitoring platform.</td></tr>
+  <tr><td><strong>UTM</strong></td><td>Unified Threat Management</td><td>Legacy all-in-one security device: firewall + antivirus + content filter + IDS in one box.</td></tr>
+  <tr><td><strong>NGFW</strong></td><td>Next-Generation Firewall</td><td>Modern firewall with deep packet inspection, application awareness, IPS built in.</td></tr>
+</table>
+
+<div class="card warn">
+  <div class="card-label">IPS vs. WAF</div>
+  <p>Both can block SQL injection. The difference is <em>where</em> they work. <strong>IPS</strong> = network traffic level (packet inspection). <strong>WAF</strong> = application input level (form fields, URLs). If the question says "evaluate input to a browser-based application" &rarr; WAF. If it says "block exploits on the network" &rarr; IPS.</p>
+</div>
+
+<div class="card info">
+  <div class="card-label">Forward vs. Reverse Proxy</div>
+  <p><strong>Forward proxy</strong> = monitors <strong>outbound</strong> traffic (users &rarr; internet). "Monitor all outbound connections for malware" = forward proxy.</p>
+  <p><strong>Reverse proxy</strong> = monitors <strong>inbound</strong> traffic (internet &rarr; your servers).</p>
+</div>
+
+
+<!-- ================================================================== -->
+<h2 id="cloud">14. Cloud Concepts</h2>
+
+<h3>Hybrid Cloud</h3>
+<p>The main risk of a hybrid cloud (mix of private and public clouds) is <strong>network protection mismatches</strong> &mdash; different security controls, different auth policies, different permissions across providers. Inconsistency is the enemy.</p>
+
+<h3>Responsibility Matrix</h3>
+<p>A cloud responsibility matrix is a visual chart showing what the <em>cloud provider</em> handles vs. what the <em>customer</em> handles. The split changes by service model:</p>
+
+<table>
+  <tr><th>Model</th><th>Provider handles</th><th>You handle</th></tr>
+  <tr><td><strong>IaaS</strong> (Infrastructure as a Service)</td><td>Hardware, networking, virtualization</td><td>OS, apps, data, security config</td></tr>
+  <tr><td><strong>PaaS</strong> (Platform as a Service)</td><td>Everything below + OS, runtime</td><td>Apps, data</td></tr>
+  <tr><td><strong>SaaS</strong> (Software as a Service)</td><td>Almost everything</td><td>Data, user access</td></tr>
+</table>
+
+<h3>SD-WAN (Software-Defined WAN)</h3>
+<p>When you're connecting to <em>multiple cloud providers</em>, SD-WAN efficiently routes traffic across all of them. A site-to-site VPN works point-to-point, but doesn't scale well to many providers.</p>
+
+<div class="mnemonic"><strong>Memory hook:</strong> One destination = VPN. Multiple cloud providers = <strong>SD-WAN</strong>.</div>
+
+<h3>Orchestration vs. Automation</h3>
+<p><strong>Automation</strong> = one system does a task automatically. <strong>Orchestration</strong> = multiple systems are coordinated together automatically. A script that converts an email to a ticket and routes it to the right department = orchestration (email system + ticketing system + routing).</p>
+
+
+<!-- ================================================================== -->
+<h2 id="ports">15. Common Ports</h2>
+
+<p>You need to know these cold for firewall-rule questions. Pay special attention to LDAP (389) and RDP (3389) — they're common traps.</p>
+
+<h3>Must-Know Ports</h3>
+<div class="port-grid">
+  <div class="port-item"><span><span class="port-num">20/21</span> <span class="port-proto">TCP</span></span> <span class="port-name">FTP</span></div>
+  <div class="port-item"><span><span class="port-num">22</span> <span class="port-proto">TCP</span></span> <span class="port-name">SSH / SFTP / SCP</span></div>
+  <div class="port-item"><span><span class="port-num">23</span> <span class="port-proto">TCP</span></span> <span class="port-name">Telnet</span></div>
+  <div class="port-item"><span><span class="port-num">25</span> <span class="port-proto">TCP</span></span> <span class="port-name">SMTP</span></div>
+  <div class="port-item"><span><span class="port-num">53</span> <span class="port-proto">UDP/TCP</span></span> <span class="port-name">DNS</span></div>
+  <div class="port-item"><span><span class="port-num">67/68</span> <span class="port-proto">UDP</span></span> <span class="port-name">DHCP</span></div>
+  <div class="port-item"><span><span class="port-num">80</span> <span class="port-proto">TCP</span></span> <span class="port-name">HTTP</span></div>
+  <div class="port-item"><span><span class="port-num">88</span> <span class="port-proto">TCP/UDP</span></span> <span class="port-name">Kerberos</span></div>
+  <div class="port-item"><span><span class="port-num">110</span> <span class="port-proto">TCP</span></span> <span class="port-name">POP3</span></div>
+  <div class="port-item"><span><span class="port-num">123</span> <span class="port-proto">UDP</span></span> <span class="port-name">NTP</span></div>
+  <div class="port-item"><span><span class="port-num">143</span> <span class="port-proto">TCP</span></span> <span class="port-name">IMAP</span></div>
+  <div class="port-item"><span><span class="port-num">161/162</span> <span class="port-proto">UDP</span></span> <span class="port-name">SNMP</span></div>
+  <div class="port-item"><span><span class="port-num">389</span> <span class="port-proto">TCP</span></span> <span class="port-name">LDAP</span></div>
+  <div class="port-item"><span><span class="port-num">443</span> <span class="port-proto">TCP</span></span> <span class="port-name">HTTPS</span></div>
+  <div class="port-item"><span><span class="port-num">445</span> <span class="port-proto">TCP</span></span> <span class="port-name">SMB</span></div>
+  <div class="port-item"><span><span class="port-num">465/587</span> <span class="port-proto">TCP</span></span> <span class="port-name">SMTPS / SMTP-TLS</span></div>
+  <div class="port-item"><span><span class="port-num">514</span> <span class="port-proto">UDP</span></span> <span class="port-name">Syslog</span></div>
+  <div class="port-item"><span><span class="port-num">636</span> <span class="port-proto">TCP</span></span> <span class="port-name">LDAPS (LDAP over SSL)</span></div>
+  <div class="port-item"><span><span class="port-num">993</span> <span class="port-proto">TCP</span></span> <span class="port-name">IMAPS</span></div>
+  <div class="port-item"><span><span class="port-num">995</span> <span class="port-proto">TCP</span></span> <span class="port-name">POP3S</span></div>
+  <div class="port-item"><span><span class="port-num">1433</span> <span class="port-proto">TCP</span></span> <span class="port-name">MS SQL</span></div>
+  <div class="port-item"><span><span class="port-num">1812/1813</span> <span class="port-proto">UDP</span></span> <span class="port-name">RADIUS</span></div>
+  <div class="port-item"><span><span class="port-num">3306</span> <span class="port-proto">TCP</span></span> <span class="port-name">MySQL</span></div>
+  <div class="port-item"><span><span class="port-num">3389</span> <span class="port-proto">TCP</span></span> <span class="port-name">RDP</span></div>
+</div>
+
+<div class="card tip">
+  <div class="card-label">Firewall rule tips</div>
+  <p>When reading firewall rules, always check <strong>three things</strong>: (1) the protocol and port, (2) the <strong>destination IP</strong>, and (3) allow vs. block. On C1, you got tricked because RDP (3389) was allowed — but only to a <em>different</em> IP than the question asked about. The implicit deny blocks everything not explicitly allowed.</p>
+  <p><strong>Implicit deny:</strong> If no rule matches the traffic, it's blocked. This is the default on any properly configured firewall. If you don't see a rule for a port/protocol, the answer is <strong>BLOCKED</strong>.</p>
+</div>
+
+<h3>Secure vs. Insecure Versions</h3>
+<table>
+  <tr><th>Insecure</th><th>Port</th><th>Secure Version</th><th>Port</th></tr>
+  <tr><td>HTTP</td><td>80</td><td>HTTPS</td><td>443</td></tr>
+  <tr><td>Telnet</td><td>23</td><td>SSH</td><td>22</td></tr>
+  <tr><td>FTP</td><td>21</td><td>SFTP</td><td>22</td></tr>
+  <tr><td>LDAP</td><td>389</td><td>LDAPS</td><td>636</td></tr>
+  <tr><td>IMAP</td><td>143</td><td>IMAPS</td><td>993</td></tr>
+  <tr><td>POP3</td><td>110</td><td>POP3S</td><td>995</td></tr>
+  <tr><td>SNMP v1/v2</td><td>161</td><td>SNMP v3</td><td>161 (encrypted)</td></tr>
+</table>
+
+
+<!-- ================================================================== -->
+<h2 id="forensics">16. Digital Forensics and Legal</h2>
+
+<p>You confused chain of custody, legal hold, and e-discovery.</p>
+
+<div class="flow">
+  <div class="flow-step active">Legal Hold<br><small>Preserve the data</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">E-Discovery<br><small>Find relevant evidence</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step active">Chain of Custody<br><small>Track who touched it</small></div>
+  <div class="flow-arrow">&rarr;</div>
+  <div class="flow-step">Court</div>
+</div>
+
+<table>
+  <tr><th>Term</th><th>What it does</th><th>Exam keyword</th></tr>
+  <tr><td><strong>Legal hold</strong></td><td>Court order to <em>preserve</em> data &mdash; don't delete anything</td><td>"Force preservation," "retain for litigation"</td></tr>
+  <tr><td><strong>E-discovery</strong></td><td>The process of <em>finding</em> relevant electronic evidence</td><td>"Identify," "search," "collect"</td></tr>
+  <tr><td><strong>Chain of custody</strong></td><td>Documents <em>who touched the evidence</em> and when</td><td>"Integrity of evidence," "documented handling"</td></tr>
+</table>
+
+
+<!-- ================================================================== -->
+<h2 id="misc">17. Other Concepts That Tripped You Up</h2>
+
+<h3>Attack Types</h3>
+<table>
+  <tr><th>Attack</th><th>Description</th><th>Key indicator</th></tr>
+  <tr><td><strong>On-path (MITM)</strong></td><td>Attacker between two parties, intercepting traffic</td><td>Invalid certificate on a legit site</td></tr>
+  <tr><td><strong>Brute force</strong></td><td>Tries every possible password combination</td><td>Hundreds/thousands of attempts on one account</td></tr>
+  <tr><td><strong>Spraying</strong></td><td>Tries a few common passwords against many accounts</td><td>Stays <em>under</em> lockout thresholds</td></tr>
+  <tr><td><strong>Replay</strong></td><td>Captures legitimate packets and retransmits them</td><td>"Packet captures" used to gain access</td></tr>
+  <tr><td><strong>SQL injection</strong></td><td>Malicious SQL commands sent through a web form</td><td>"Commands directly to a database"</td></tr>
+  <tr><td><strong>XSS (Cross-site scripting)</strong></td><td>Malicious scripts injected into trusted websites</td><td>Runs in the <em>browser</em>, not the database</td></tr>
+  <tr><td><strong>Supply chain</strong></td><td>Attacker compromises a vendor/partner to reach you</td><td>Third-party connections, business partner tunnels</td></tr>
+  <tr><td><strong>Deauthentication</strong></td><td>Forces clients off a WiFi network</td><td>Wireless disconnects, not cert errors</td></tr>
+</table>
+
+<h3>Keyloggers and Beaconing</h3>
+<p>Intermittent outbound connections from workstations to one external IP at random times = malware phoning home. A <strong>keylogger</strong> captures keystrokes and periodically transmits to the attacker. This pattern (random, outbound, one destination) is classic C2 beaconing behavior.</p>
+
+<h3>Vulnerability Scan Results</h3>
+<table>
+  <tr><th>Result</th><th>Meaning</th></tr>
+  <tr><td><strong>False positive</strong></td><td>Scanner flags something that isn't actually a problem (e.g., JRE vuln when JRE isn't installed)</td></tr>
+  <tr><td><strong>False negative</strong></td><td>Scanner misses something that is a real problem (vuln exists but scan shows all clear)</td></tr>
+</table>
+
+<h3>Server Hardening</h3>
+<p>Hardening = configuring a system securely. Removing defaults, disabling unnecessary services, fixing permissions, tightening SSL. Different from <em>patching</em>, which updates the software itself. If an audit finds <strong>configuration</strong> issues (defaults, wrong accounts, bad certs), the fix is <strong>hardening</strong>, not OS updates.</p>
+
+<h3>Wireless Security</h3>
+<p>MAC filtering can be easily bypassed by spoofing a legitimate MAC address. It's not real security &mdash; just a speed bump. To actually secure a wireless network, enable <strong>WPA3</strong> encryption (or at minimum WPA2 with 802.1X). WPA3 provides cryptographic authentication that can't be spoofed.</p>
+
+<h3>Air Gap</h3>
+<p>An air gap is a <em>physical</em> network separation. No cables, no wireless, no connection of any kind. When a question says "prevent <strong>ALL</strong> communication" between systems, the answer is air gap. Firewalls and VLANs filter or segment traffic, but a path still exists. Air gap = no path at all.</p>
+
+<h3>High Availability (HA)</h3>
+<p>HA means the service stays up and running. A <strong>UPS</strong> (Uninterruptible Power Supply) provides HA by keeping systems powered during outages &mdash; battery backup or generator. If the question asks what provides HA and lists a UPS, that's the answer.</p>
+
+<h3>Dependencies in Change Management</h3>
+<p>A dependency exists when one change can't happen until another is completed. "App upgrade is delayed because a driver needs to be installed first" = dependency. Not a legacy application (that's old unsupported software).</p>
+
+<h3>Enumeration</h3>
+<p>Enumeration = cataloging hardware and software on a device. If a laptop is enumerated at each login, the system can detect hardware changes and alert the security team. It's an inventory check, not VLAN assignment or MFA.</p>
+
+<h3>Host-Based vs. Network-Based Tools</h3>
+<p>If a device is bypassing the corporate network (using a cellular hotspot), all corporate network tools (UTM, WAF, NGFW) are blind. The only evidence lives <em>on the device itself</em>:</p>
+<ul style="margin-left:1.5rem; margin-bottom:1rem;">
+  <li><strong>HIPS</strong> &mdash; Host-based Intrusion Prevention System</li>
+  <li><strong>Host-based firewall logs</strong></li>
+</ul>
+<p>Both start with "host-based" &mdash; when the device isn't on your network, that's the pattern.</p>
+
+<h3>Penetration Test Environment Types</h3>
+<table>
+  <tr><th>Type</th><th>Also called</th><th>Info given to tester</th></tr>
+  <tr><td><strong>Known</strong></td><td>White box</td><td>Full access: source code, network diagrams, credentials</td></tr>
+  <tr><td><strong>Partially known</strong></td><td>Gray box</td><td>Some info provided (e.g., IP addresses only)</td></tr>
+  <tr><td><strong>Unknown</strong></td><td>Black box</td><td>Nothing. Figure it out.</td></tr>
+</table>
+
+
+<!-- ================================================================== -->
+<h2 id="meta">18. Test-Taking Patterns</h2>
+
+<div class="card warn">
+  <div class="card-label">Stop second-guessing yourself</div>
+  <p>A common pattern on practice exams: your <strong>first instinct is correct</strong> but you second-guess yourself and change to the wrong answer. This is especially common with terms like MOA, deterrent, false negative, digital signature, and data custodian — where the right answer "feels too simple."</p>
+  <p><strong>Rule:</strong> Unless you can articulate a specific reason your first answer is wrong, don't change it. "Maybe it's the other one?" is not a reason.</p>
+</div>
+
+<div class="card tip">
+  <div class="card-label">Read for keywords</div>
+  <p>Many questions have a single word that points directly to the answer:</p>
+  <ul style="list-style:none; padding:0;">
+    <li><strong>"Disposition"</strong> &rarr; DMARC</li>
+    <li><strong>"Supplicant"</strong> &rarr; 802.1X</li>
+    <li><strong>"Broad formal agreement"</strong> &rarr; MOA</li>
+    <li><strong>"Confidential / Secret"</strong> &rarr; Mandatory Access Control</li>
+    <li><strong>"Third-party credentials"</strong> &rarr; Federation</li>
+    <li><strong>"Prevent ALL communication"</strong> &rarr; Air gap</li>
+    <li><strong>"Personal phone for work"</strong> &rarr; BYOD</li>
+    <li><strong>"Preserve data for court"</strong> &rarr; Legal hold</li>
+  </ul>
+</div>
+
+<div class="card info">
+  <div class="card-label">Your strongest areas</div>
+  <p>If you're using this guide, you likely already have a solid foundation in attack identification, physical security, authentication factors, and cryptography. The gaps covered here are conceptual distinctions between similar terms — not fundamental knowledge holes. Drilling these distinctions is what pushes a 75% to a pass.</p>
+</div>
+
+<br>
+<p style="text-align:center; color:var(--muted); font-size:0.85rem; margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+  Generated with <a href="https://claude.ai" style="color:var(--accent); text-decoration:none;">Claude</a> by <a href="https://www.anthropic.com" style="color:var(--accent); text-decoration:none;">Anthropic</a> — based on gap analysis of Professor Messer's SY0-701 practice exams.<br>
+  <a href="https://github.com/PR0CK0/CompTIA-Security-Study-Guides" style="color:var(--accent); text-decoration:none;">github.com/PR0CK0/CompTIA-Security-Study-Guides</a>
+</p>
+
+</body>
+</html>
